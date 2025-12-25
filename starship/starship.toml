@@ -1,0 +1,133 @@
+# -----------------------------
+# Starship (PS7) — Backend/DevOps-lite (no k8s)
+# -----------------------------
+add_newline = false
+command_timeout = 700
+
+format = """
+$os$username$hostname$directory$git_branch$git_status$git_state$cmd_duration$time
+$character"""
+
+[fill]
+symbol = " "
+
+[character]
+success_symbol = "❯ "
+error_symbol = "❯ "
+vimcmd_symbol = "❮ "
+
+[time]
+disabled = false
+format = " [$time]($style)"
+time_format = "%I:%M %p"
+style = "dimmed"
+
+# -----------------------------
+# Directory
+# -----------------------------
+[directory]
+truncation_length = 3
+truncate_to_repo = true
+home_symbol = "~"
+read_only = " "
+format = " [$path]($style)[$read_only]($style)"
+style = "bold"
+
+# -----------------------------
+# Command duration (only if slow)
+# -----------------------------
+[cmd_duration]
+min_time = 800
+format = " [$duration]($style)"
+style = "dimmed"
+
+# -----------------------------
+# Git
+# -----------------------------
+[git_branch]
+symbol = " "
+format = " on [$symbol$branch]($style)"
+style = "bold"
+
+[git_status]
+format = "([$all_status$ahead_behind]($style))"
+style = "bold"
+conflicted = " "
+ahead = "⇡"
+behind = "⇣"
+diverged = "⇕"
+untracked = "?"
+stashed = "≡"
+modified = "!"
+staged = "+"
+renamed = "»"
+deleted = "✘"
+
+[git_state]
+format = " [$state( $progress_current/$progress_total)]($style)"
+style = "dimmed"
+
+# -----------------------------
+# Languages (only when relevant)
+# -----------------------------
+[nodejs]
+format = " [node $version]($style)"
+style = "bold"
+detect_files = ["package.json", "pnpm-lock.yaml", "yarn.lock", "bun.lockb", "deno.json"]
+detect_extensions = ["js", "mjs", "cjs", "ts", "mts", "cts"]
+
+[python]
+format = " [py $version]($style)"
+style = "bold"
+detect_extensions = ["py"]
+detect_files = ["pyproject.toml", "requirements.txt", "Pipfile", "poetry.lock"]
+
+# These are optional — оставил, но они покажутся только в проектах
+[dotnet]
+format = " [.NET $version]($style)"
+style = "bold"
+
+[java]
+format = " [java $version]($style)"
+style = "bold"
+
+[golang]
+format = " [go $version]($style)"
+style = "bold"
+
+[rust]
+format = " [rs $version]($style)"
+style = "bold"
+
+# -----------------------------
+# Docker (only when relevant)
+# -----------------------------
+[docker_context]
+format = " [docker $context]($style)"
+style = "bold"
+only_with_files = true
+detect_files = ["docker-compose.yml", "docker-compose.yaml", "Dockerfile"]
+
+# -----------------------------
+# Identity bits
+# -----------------------------
+[username]
+show_always = false
+format = " [$user]($style)"
+style_user = "dimmed"
+style_root = "bold red"
+
+[hostname]
+ssh_only = true
+format = "[@$hostname]($style) "
+style = "dimmed"
+
+[os]
+disabled = false
+format = "[$symbol]($style) "
+style = "dimmed"
+
+[os.symbols]
+Windows = ""
+Linux = ""
+Macos = ""
