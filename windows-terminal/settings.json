@@ -27,6 +27,7 @@
   "profiles": {
     "defaults": {
       "elevate": true,
+      "cursorShape": "filledBox",
       "font": {
         "face": "JetBrainsMono Nerd Font"
       }

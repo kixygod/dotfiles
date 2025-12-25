@@ -60,6 +60,7 @@ SmbShare
 SmbWitness
 StartLayout
 Storage
+Terminal-Icons
 ThreadJob
 TLS
 TroubleshootingPack

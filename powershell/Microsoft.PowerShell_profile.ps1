@@ -1,12 +1,15 @@
+# =====================================================
+# PowerShell profile — work-focused dotfiles (Kixy)
+# PowerShell 7+ recommended
+# =====================================================
+
 # -----------------------------
 # Fast & safe profile bootstrap
 # -----------------------------
 $ErrorActionPreference = "Continue"
 
 function Import-IfAvailable {
-    param(
-        [Parameter(Mandatory)] [string] $Name
-    )
+    param([Parameter(Mandatory)][string]$Name)
     try {
         if (Get-Module -ListAvailable -Name $Name) {
             Import-Module $Name -ErrorAction SilentlyContinue
@@ -46,10 +49,7 @@ if (Get-Command starship -ErrorAction SilentlyContinue) {
 # Aliases
 # -----------------------------
 Set-Alias c cls
-
-if (Get-Command "notepad++" -ErrorAction SilentlyContinue) {
-    Set-Alias npp notepad++
-}
+if (Get-Command "notepad++" -ErrorAction SilentlyContinue) { Set-Alias npp notepad++ }
 
 # -----------------------------
 # PSReadLine (history, prediction, UX)
@@ -94,9 +94,8 @@ Set-PSReadLineOption -AddToHistoryHandler {
 }
 
 # -----------------------------
-# Quality-of-life functions
+# QoL functions
 # -----------------------------
-
 function prof { npp $PROFILE 2>$null; if ($LASTEXITCODE) { notepad $PROFILE } }
 function rprof { . $PROFILE }
 
@@ -118,143 +117,19 @@ function hist-clean {
     "Cleaned history: removed lines matching /$Pattern/ from $path"
 }
 
-# -----------------------------
-# Dotfiles helpers
-# -----------------------------
+# =====================================================
+# dots — dotfiles & work environment (NO FLAGS)
+# =====================================================
+
 function Get-DotfilesRoot {
     $p = Get-Item -LiteralPath $PROFILE -ErrorAction Stop
-    $profileReal = if ($p.LinkType -and $p.Target) { $p.Target } else { $PROFILE }
-    return (Resolve-Path (Join-Path (Split-Path $profileReal -Parent) "..")).Path
+    $real = if ($p.LinkType -and $p.Target) { $p.Target } else { $PROFILE }
+    return (Resolve-Path (Join-Path (Split-Path $real -Parent) "..")).Path
 }
 
-function dots {
-    param(
-        [Parameter(Position = 0)]
-        [ValidateSet("help", "install", "backup", "save", "commit", "push", "status", "diff", "check", "root")]
-        [string]$cmd = "status",
-
-        [Parameter(Position = 1)]
-        [string]$msg = "update dotfiles"
-    )
-
-    $repo = Get-DotfilesRoot
-    $oldLoc = Get-Location
-    $oldEA = $ErrorActionPreference
-    $ErrorActionPreference = "Stop"
-
-    try {
-        if ($cmd -eq "help") {
-            @"
-dots — dotfiles helper (PowerShell)
-
-Usage:
-  dots <command> [args]
-
-Commands:
-  help
-    Show this help.
-
-  status
-    Show repo status.
-    Usage: dots status
-
-  diff
-    Show working tree diff (unstaged + staged view depends on git config).
-    Usage: dots diff
-
-  root
-    Print dotfiles repo path.
-    Usage: dots root
-
-  install
-    Apply dotfiles to system (runs scripts/install.ps1).
-    Usage: dots install
-
-  backup
-    Sync current system configs into the repo (runs scripts/backup.ps1).
-    Usage: dots backup
-
-  save
-    backup + stage all changes + show status + staged summary.
-    Usage: dots save
-
-  commit
-    Commit staged changes with message.
-    Usage: dots commit "message"
-    Notes:
-      - If nothing is staged: prints "Nothing staged. Run: dots save"
-
-  push
-    Push current HEAD to origin (sets upstream).
-    Usage: dots push
-
-  check
-    Health check: verify symlinks/targets (dots-check).
-    Usage: dots check
-
-Typical flow:
-  dots save
-  dots commit "your message"
-  dots push
-"@ | Write-Host
-            return
-        }
-
-        if ($cmd -eq "root") { Write-Host $repo; return }
-
-        if (-not (Test-Path $repo)) { throw "dotfiles repo not found: $repo" }
-        Set-Location $repo
-
-        Write-Host "→ dots $cmd @ $repo" -ForegroundColor DarkGray
-
-        switch ($cmd) {
-            "install" { & "$repo\scripts\install.ps1" | Out-Host }
-
-            "backup" { & "$repo\scripts\backup.ps1" | Out-Host }
-
-            # save = local prep: backup + stage + show status
-            "save" {
-                & "$repo\scripts\backup.ps1" | Out-Host
-                & git add -A | Out-Host
-                & git status | Out-Host
-                & git diff --cached --stat | Out-Host
-                Write-Host "ℹ Saved locally (staged). Next: dots commit ""msg"" then dots push" -ForegroundColor DarkGray
-            }
-
-            # commit = only commit
-            "commit" {
-                & git diff --cached --quiet
-                if ($LASTEXITCODE -eq 0) {
-                    Write-Host "ℹ Nothing staged. Run: dots save" -ForegroundColor DarkGray
-                    & git status | Out-Host
-                    break
-                }
-
-                & git commit -m $msg | Out-Host
-                & git status | Out-Host
-            }
-
-            # push = only push
-            "push" {
-                & git push -u origin HEAD | Out-Host
-                & git status | Out-Host
-            }
-
-            "status" { & git status | Out-Host }
-            "diff" { & git diff | Out-Host }
-
-            "check" { dots-check }
-        }
-    }
-    catch {
-        Write-Host "❌ dots $cmd failed: $($_.Exception.Message)" -ForegroundColor Red
-    }
-    finally {
-        Set-Location $oldLoc
-        $ErrorActionPreference = $oldEA
-    }
+function dots-root {
+    Write-Host (Get-DotfilesRoot)
 }
-
 
 function dots-check {
     $repo = Get-DotfilesRoot
@@ -269,7 +144,7 @@ function dots-check {
         $item = Get-Item -LiteralPath $c.Src -ErrorAction SilentlyContinue
 
         if (-not $item) {
-            Write-Host "❌ $($c.Name): missing $($c.Src)" -ForegroundColor Red
+            Write-Host "❌ $($c.Name): missing ($($c.Src))" -ForegroundColor Red
             continue
         }
 
@@ -278,8 +153,8 @@ function dots-check {
             continue
         }
 
-        if (($item.Target) -ne $c.Dst) {
-            Write-Host "⚠ $($c.Name): points to $($item.Target) (expected $($c.Dst))" -ForegroundColor Yellow
+        if ($item.Target -ne $c.Dst) {
+            Write-Host "⚠ $($c.Name): wrong target -> $($item.Target) (expected $($c.Dst))" -ForegroundColor Yellow
             continue
         }
 
@@ -287,6 +162,338 @@ function dots-check {
     }
 
     Write-Host "Repo: $repo" -ForegroundColor DarkGray
+}
+
+function dots-doctor {
+    $ok = $true
+
+    Write-Host "dots doctor — system checks" -ForegroundColor Cyan
+    Write-Host ""
+
+    # PowerShell
+    Write-Host ("PowerShell: " + $PSVersionTable.PSVersion.ToString()) -ForegroundColor DarkGray
+
+    # git
+    if (Get-Command git -ErrorAction SilentlyContinue) {
+        Write-Host ("Git:       " + (& git --version 2>$null)) -ForegroundColor DarkGray
+    }
+    else {
+        Write-Host "❌ Git: not found" -ForegroundColor Red
+        $ok = $false
+    }
+
+    # winget
+    if (Get-Command winget -ErrorAction SilentlyContinue) {
+        Write-Host ("winget:    " + (& winget --version 2>$null)) -ForegroundColor DarkGray
+    }
+    else {
+        Write-Host "❌ winget: not found" -ForegroundColor Red
+        $ok = $false
+    }
+
+    # starship
+    if (Get-Command starship -ErrorAction SilentlyContinue) {
+        Write-Host ("Starship:  " + (& starship --version 2>$null)) -ForegroundColor DarkGray
+    }
+    else {
+        Write-Host "⚠ Starship: not found (prompt falls back to default)" -ForegroundColor Yellow
+    }
+
+    Write-Host ""
+    if ($ok) { Write-Host "✅ doctor: OK" -ForegroundColor Green }
+    else { Write-Host "❌ doctor: problems found" -ForegroundColor Red }
+}
+
+# -----------------------------
+# Apps management (ALLOWLIST based)
+# -----------------------------
+function dots-apps-paths {
+    $repo = Get-DotfilesRoot
+    return @{
+        Repo      = $repo
+        Allowlist = (Join-Path $repo "exports\winget.allowlist.txt")
+        WorkJson  = (Join-Path $repo "exports\winget.work.json")
+    }
+}
+
+function dots-apps-read-allowlist {
+    $p = dots-apps-paths
+    $allow = $p.Allowlist
+
+    if (-not (Test-Path $allow)) {
+        throw ("allowlist not found: " + $allow + "`nCreate it: dotfiles/exports/winget.allowlist.txt")
+    }
+
+    $items =
+    Get-Content -LiteralPath $allow -ErrorAction Stop |
+    ForEach-Object { $_.Trim() } |
+    Where-Object { $_ -and -not $_.StartsWith("#") } |
+    Sort-Object -Unique
+
+    return $items
+}
+
+function dots-apps-export {
+    if (-not (Get-Command winget -ErrorAction SilentlyContinue)) { throw "winget not found" }
+
+    $p = dots-apps-paths
+    $ids = dots-apps-read-allowlist
+
+    # IMPORTANT:
+    # winget import validates CreationDate as date-time; must be ISO 8601 with timezone (Z).
+    $creation = (Get-Date).ToUniversalTime().ToString("yyyy-MM-ddTHH:mm:ssZ")
+
+    $doc = [ordered]@{
+        '$schema'    = 'https://aka.ms/winget-packages.schema.2.0.json'
+        CreationDate = $creation
+        Sources      = @(
+            @{
+                Packages      = @()
+                SourceDetails = @{
+                    Argument   = "https://cdn.winget.microsoft.com/cache"
+                    Identifier = "Microsoft.Winget.Source_8wekyb3d8bbwe"
+                    Name       = "winget"
+                    Type       = "Microsoft.PreIndexed.Package"
+                }
+            }
+        )
+    }
+
+    foreach ($id in $ids) {
+        $doc.Sources[0].Packages += @{ PackageIdentifier = $id }
+    }
+
+    $json = ($doc | ConvertTo-Json -Depth 32)
+    Set-Content -LiteralPath $p.WorkJson -Value ($json + "`n") -Encoding UTF8
+
+    Write-Host "✅ exported work apps -> $($p.WorkJson)" -ForegroundColor Green
+    Write-Host "   source: allowlist -> $($p.Allowlist)" -ForegroundColor DarkGray
+}
+
+function dots-apps-sync {
+    if (-not (Get-Command winget -ErrorAction SilentlyContinue)) { throw "winget not found" }
+
+    $p = dots-apps-paths
+    if (-not (Test-Path $p.WorkJson)) {
+        Write-Host "ℹ $($p.WorkJson) not found. Running: dots apps export" -ForegroundColor DarkGray
+        dots-apps-export
+    }
+
+    Write-Host "→ winget import (work allowlist)" -ForegroundColor DarkGray
+    winget import -i $p.WorkJson --accept-package-agreements --accept-source-agreements | Out-Host
+}
+
+function dots-apps-upgrade {
+    if (-not (Get-Command winget -ErrorAction SilentlyContinue)) { throw "winget not found" }
+
+    Write-Host "→ winget upgrade --all --include-unknown" -ForegroundColor DarkGray
+    winget upgrade --all --include-unknown --accept-package-agreements --accept-source-agreements | Out-Host
+}
+
+function dots-apps-diff {
+    if (-not (Get-Command winget -ErrorAction SilentlyContinue)) { throw "winget not found" }
+
+    $allow = dots-apps-read-allowlist
+
+    # Get installed identifiers via winget export (reliable, no ARP garbage)
+    $tmp = [System.IO.Path]::GetTempFileName()
+    try {
+        winget export -o $tmp --accept-source-agreements | Out-Null
+        $raw = Get-Content -LiteralPath $tmp -Raw -ErrorAction Stop
+        $obj = $raw | ConvertFrom-Json -ErrorAction Stop
+
+        $installed = @()
+        foreach ($s in $obj.Sources) {
+            foreach ($pkg in $s.Packages) {
+                if ($pkg.PackageIdentifier) { $installed += $pkg.PackageIdentifier }
+            }
+        }
+        $installed = $installed | Sort-Object -Unique
+
+        $missing = $allow | Where-Object { $_ -notin $installed }
+        $extra = $installed | Where-Object { $_ -notin $allow }
+
+        Write-Host ""
+        Write-Host "Missing (in allowlist but not installed):" -ForegroundColor Yellow
+        if ($missing.Count -eq 0) { Write-Host "  (none)" -ForegroundColor DarkGray }
+        else { $missing | ForEach-Object { Write-Host $_ } }
+
+        Write-Host ""
+        Write-Host "Extra (installed but not in allowlist):" -ForegroundColor Yellow
+        if ($extra.Count -eq 0) { Write-Host "  (none)" -ForegroundColor DarkGray }
+        else { $extra | ForEach-Object { Write-Host $_ } }
+
+        Write-Host ""
+        Write-Host ("Allowlist:  " + (dots-apps-paths).Allowlist) -ForegroundColor DarkGray
+    }
+    finally {
+        Remove-Item -LiteralPath $tmp -Force -ErrorAction SilentlyContinue
+    }
+}
+
+# -----------------------------
+# Dotfiles scripts
+# -----------------------------
+function dots-install {
+    $repo = Get-DotfilesRoot
+    Push-Location $repo
+    try { & "$repo\scripts\install.ps1" }
+    finally { Pop-Location }
+}
+
+function dots-backup {
+    $repo = Get-DotfilesRoot
+    Push-Location $repo
+    try { & "$repo\scripts\backup.ps1" }
+    finally { Pop-Location }
+}
+
+# -----------------------------
+# Git helpers in repo
+# -----------------------------
+function dots-status {
+    $repo = Get-DotfilesRoot
+    Push-Location $repo
+    try { git status }
+    finally { Pop-Location }
+}
+
+function dots-diff {
+    $repo = Get-DotfilesRoot
+    Push-Location $repo
+    try { git diff }
+    finally { Pop-Location }
+}
+
+function dots-save {
+    $repo = Get-DotfilesRoot
+    Push-Location $repo
+    try {
+        & "$repo\scripts\backup.ps1"
+        git add -A
+        git status
+        git diff --cached --stat
+        Write-Host 'ℹ Saved locally (staged). Next: dots commit "msg"' -ForegroundColor DarkGray
+    }
+    finally { Pop-Location }
+}
+
+function dots-commit {
+    param([Parameter(Mandatory)][string]$Message)
+
+    $repo = Get-DotfilesRoot
+    Push-Location $repo
+    try {
+        git diff --cached --quiet
+        if ($LASTEXITCODE -eq 0) {
+            Write-Host "ℹ Nothing staged. Run: dots save" -ForegroundColor DarkGray
+            git status
+            return
+        }
+        git commit -m $Message
+        git status
+    }
+    finally { Pop-Location }
+}
+
+function dots-push {
+    $repo = Get-DotfilesRoot
+    Push-Location $repo
+    try {
+        git push -u origin HEAD
+        git status
+    }
+    finally { Pop-Location }
+}
+
+# -----------------------------
+# Main dispatcher (no flags, only commands)
+# -----------------------------
+function dots {
+    param(
+        [Parameter(Position = 0)][string]$Command = "help",
+        [Parameter(Position = 1)][string]$Arg1,
+        [Parameter(Position = 2)][string]$Arg2
+    )
+
+    try {
+        switch ($Command) {
+            "help" {
+                @"
+dots — dotfiles & work environment
+
+Core:
+  dots doctor
+  dots check
+  dots root
+
+Dotfiles:
+  dots install
+  dots backup
+
+Git:
+  dots status
+  dots diff
+  dots save
+  dots commit "msg"
+  dots push
+
+Apps (allowlist-based):
+  dots apps export   (allowlist -> exports/winget.work.json)
+  dots apps sync     (install missing from exports/winget.work.json)
+  dots apps upgrade  (upgrade everything)
+  dots apps diff     (installed vs allowlist)
+
+Files:
+  exports/winget.allowlist.txt   (YOU maintain)
+  exports/winget.work.json       (auto-generated)
+
+Suggested routine:
+  dots doctor
+  dots apps diff
+  dots apps export
+  dots apps sync
+"@ | Write-Host
+            }
+
+            "root" { dots-root }
+            "check" { dots-check }
+            "doctor" { dots-doctor }
+
+            "install" { dots-install }
+            "backup" { dots-backup }
+
+            "status" { dots-status }
+            "diff" { dots-diff }
+            "save" { dots-save }
+            "commit" {
+                if (-not $Arg1) { throw 'Commit message required: dots commit "msg"' }
+                dots-commit -Message $Arg1
+            }
+            "push" { dots-push }
+
+            "apps" {
+                switch ($Arg1) {
+                    "export" { dots-apps-export }
+                    "sync" { dots-apps-sync }
+                    "upgrade" { dots-apps-upgrade }
+                    "diff" { dots-apps-diff }
+                    default {
+                        Write-Host "Unknown apps command: $Arg1" -ForegroundColor Red
+                        Write-Host "Use: dots apps export | sync | upgrade | diff" -ForegroundColor DarkGray
+                    }
+                }
+            }
+
+            default {
+                Write-Host "Unknown command: $Command" -ForegroundColor Red
+                Write-Host "Run: dots help" -ForegroundColor DarkGray
+            }
+        }
+    }
+    catch {
+        Write-Host "Exception: $($_.Exception.Message)" -ForegroundColor Red
+    }
 }
 
 # -----------------------------
@@ -298,7 +505,8 @@ function dcd { docker compose down }
 function dcl { docker compose logs -f --tail 200 }
 
 # -----------------------------
-# Git helpers
+# Git shortcuts
 # -----------------------------
 function gs { git status }
 function gl { git log --oneline --decorate -n 20 }
+function gd { git diff }

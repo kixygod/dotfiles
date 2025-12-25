@@ -43,9 +43,6 @@
           "PackageIdentifier": "Microsoft.VCRedist.2010.x64"
         },
         {
-          "PackageIdentifier": "OpenJS.NodeJS"
-        },
-        {
           "PackageIdentifier": "clsid2.mpc-hc"
         },
         {
@@ -71,6 +68,9 @@
         },
         {
           "PackageIdentifier": "Google.Chrome"
+        },
+        {
+          "PackageIdentifier": "OpenJS.NodeJS"
         },
         {
           "PackageIdentifier": "Anysphere.Cursor"

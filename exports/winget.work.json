@@ -1,0 +1,167 @@
+{
+  "$schema": "https://aka.ms/winget-packages.schema.2.0.json",
+  "CreationDate": "2025-12-25T18:02:10Z",
+  "Sources": [
+    {
+      "Packages": [
+        {
+          "PackageIdentifier": "7zip.7zip"
+        },
+        {
+          "PackageIdentifier": "Amazon.AWSCLI"
+        },
+        {
+          "PackageIdentifier": "Ansible.Ansible"
+        },
+        {
+          "PackageIdentifier": "curl.curl"
+        },
+        {
+          "PackageIdentifier": "Docker.DockerDesktop"
+        },
+        {
+          "PackageIdentifier": "EclipseAdoptium.Temurin.17.JDK"
+        },
+        {
+          "PackageIdentifier": "EclipseAdoptium.Temurin.21.JDK"
+        },
+        {
+          "PackageIdentifier": "Figma.Figma"
+        },
+        {
+          "PackageIdentifier": "Figma.FigmaAgent"
+        },
+        {
+          "PackageIdentifier": "Git.Git"
+        },
+        {
+          "PackageIdentifier": "GnuPG.Gpg4win"
+        },
+        {
+          "PackageIdentifier": "GoLang.Go"
+        },
+        {
+          "PackageIdentifier": "Google.Chrome"
+        },
+        {
+          "PackageIdentifier": "Google.CloudSDK"
+        },
+        {
+          "PackageIdentifier": "Grafana.Grafana"
+        },
+        {
+          "PackageIdentifier": "Grafana.Loki"
+        },
+        {
+          "PackageIdentifier": "Grafana.Promtail"
+        },
+        {
+          "PackageIdentifier": "Hashicorp.Packer"
+        },
+        {
+          "PackageIdentifier": "Hashicorp.Terraform"
+        },
+        {
+          "PackageIdentifier": "Helm.Helm"
+        },
+        {
+          "PackageIdentifier": "HTTPie.HTTPie"
+        },
+        {
+          "PackageIdentifier": "Insomnia.Insomnia"
+        },
+        {
+          "PackageIdentifier": "JanDeDobbeleer.OhMyPosh"
+        },
+        {
+          "PackageIdentifier": "JetBrains.Toolbox"
+        },
+        {
+          "PackageIdentifier": "Kubernetes.kubectl"
+        },
+        {
+          "PackageIdentifier": "LocalSend.LocalSend"
+        },
+        {
+          "PackageIdentifier": "Microsoft.AzureCLI"
+        },
+        {
+          "PackageIdentifier": "Microsoft.Edge"
+        },
+        {
+          "PackageIdentifier": "Microsoft.PowerShell"
+        },
+        {
+          "PackageIdentifier": "Microsoft.VisualStudioCode"
+        },
+        {
+          "PackageIdentifier": "Microsoft.WindowsTerminal"
+        },
+        {
+          "PackageIdentifier": "MongoDB.Compass"
+        },
+        {
+          "PackageIdentifier": "Neovim.Neovim"
+        },
+        {
+          "PackageIdentifier": "Notepad++.Notepad++"
+        },
+        {
+          "PackageIdentifier": "OpenJS.Corepack"
+        },
+        {
+          "PackageIdentifier": "OpenJS.NodeJS.LTS"
+        },
+        {
+          "PackageIdentifier": "OpenSSH.Client"
+        },
+        {
+          "PackageIdentifier": "OpenVPNTechnologies.OpenVPN"
+        },
+        {
+          "PackageIdentifier": "pnpm.pnpm"
+        },
+        {
+          "PackageIdentifier": "PostgreSQL.pgAdmin4"
+        },
+        {
+          "PackageIdentifier": "Postman.Postman"
+        },
+        {
+          "PackageIdentifier": "Python.Launcher"
+        },
+        {
+          "PackageIdentifier": "Python.Python.3.12"
+        },
+        {
+          "PackageIdentifier": "Redis.RedisInsight"
+        },
+        {
+          "PackageIdentifier": "Rustlang.Rustup"
+        },
+        {
+          "PackageIdentifier": "Starship.Starship"
+        },
+        {
+          "PackageIdentifier": "voidtools.Everything"
+        },
+        {
+          "PackageIdentifier": "WireGuard.WireGuard"
+        },
+        {
+          "PackageIdentifier": "WiresharkFoundation.Wireshark"
+        },
+        {
+          "PackageIdentifier": "Yarn.Yarn"
+        }
+      ],
+      "SourceDetails": {
+        "Name": "winget",
+        "Argument": "https://cdn.winget.microsoft.com/cache",
+        "Type": "Microsoft.PreIndexed.Package",
+        "Identifier": "Microsoft.Winget.Source_8wekyb3d8bbwe"
+      }
+    }
+  ]
+}
+

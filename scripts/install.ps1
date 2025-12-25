@@ -1,6 +1,9 @@
+[CmdletBinding()]
 param(
   [switch]$CopyInsteadOfSymlink,
-  [switch]$SkipWingetRestore
+  [switch]$Winget,
+  [switch]$WingetUpgrade,
+  [switch]$SkipBootstrap
 )
 
 $ErrorActionPreference = "Stop"
@@ -35,16 +38,6 @@ function Link-Or-Copy($src, $dst) {
   }
 }
 
-function Ensure-WingetPackage([string]$Id) {
-  if (-not (Get-Command winget -ErrorAction SilentlyContinue)) { return }
-  # quick check: list installed by id (not perfect but good enough)
-  $found = winget list --id $Id 2>$null
-  if (-not $found) {
-    Write-Host "Installing: $Id" -ForegroundColor DarkGray
-    winget install --id $Id -e --accept-package-agreements --accept-source-agreements | Out-Null
-  }
-}
-
 function Ensure-PSModule([string]$Name) {
   try {
     if (-not (Get-Module -ListAvailable -Name $Name)) {
@@ -53,38 +46,59 @@ function Ensure-PSModule([string]$Name) {
     }
   }
   catch {
-    Write-Host "⚠ Could not install module $Name: $($_.Exception.Message)" -ForegroundColor Yellow
+    Write-Host "⚠ Could not install module $Name : $($_.Exception.Message)" -ForegroundColor Yellow
   }
 }
 
 # -----------------------------
-# Bootstrap tools (optional)
+# Make --winget-upgrade work alone
 # -----------------------------
-if (Get-Command winget -ErrorAction SilentlyContinue) {
-  # Ensure essentials you rely on
-  Ensure-WingetPackage "Git.Git"
-  Ensure-WingetPackage "Starship.Starship"
-  Ensure-WingetPackage "Notepad++.Notepad++"
+if ($WingetUpgrade) {
+  $Winget = $true
 }
 
-# PowerShell modules that improve UX (optional)
-Ensure-PSModule "Terminal-Icons"
-# PSReadLine is built-in, but latest versions can be installed; optional:
-# Ensure-PSModule "PSReadLine"
+# -----------------------------
+# Optional bootstrap (fast UX stuff)
+# -----------------------------
+if (-not $SkipBootstrap) {
+  Ensure-PSModule "Terminal-Icons"
+}
 
 # -----------------------------
-# Restore winget set (optional)
+# Optional winget restore
 # -----------------------------
-if (-not $SkipWingetRestore -and (Get-Command winget -ErrorAction SilentlyContinue)) {
-  $export = Join-Path $repo "exports\winget.json"
-  if (Test-Path $export) {
-    Write-Host "Restoring winget packages from exports\winget.json..." -ForegroundColor DarkGray
-    winget import -i $export --accept-package-agreements --accept-source-agreements | Out-Host
+if ($Winget) {
+  if (Get-Command winget -ErrorAction SilentlyContinue) {
+    $export = Join-Path $repo "exports\winget.json"
+    if (Test-Path $export) {
+      Write-Host "Restoring winget packages from exports\winget.json..." -ForegroundColor DarkGray
+
+      $importArgs = @(
+        "import", "-i", $export,
+        "--accept-package-agreements",
+        "--accept-source-agreements"
+      )
+
+      if ($WingetUpgrade) {
+        $importArgs += "--include-unknown"
+      }
+
+      & winget @importArgs | Out-Host
+    }
+    else {
+      Write-Host "ℹ exports\winget.json not found, skipping winget import." -ForegroundColor DarkGray
+    }
+  }
+  else {
+    Write-Host "ℹ winget not found, skipping winget import." -ForegroundColor DarkGray
   }
 }
+else {
+  Write-Host "ℹ Winget restore skipped (default). Use: dots install --winget (or --winget-upgrade)" -ForegroundColor DarkGray
+}
 
 # -----------------------------
-# Install dotfiles (links)
+# Install dotfiles (links/copy)
 # -----------------------------
 $profilePath = $PROFILE
 $profileSrc = Join-Path $repo "powershell\Microsoft.PowerShell_profile.ps1"

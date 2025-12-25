@@ -1,0 +1,91 @@
+# ==========================================================
+# winget.allowlist.txt — WORK ONLY (no games, no Unity, etc.)
+# Keep it lean: dev tools, infra, security, UX/UI, browsers
+# Lines starting with # are comments
+# ==========================================================
+
+# --- Shell / Terminal / Editor ---
+Microsoft.PowerShell
+Microsoft.WindowsTerminal
+Starship.Starship
+Microsoft.VisualStudioCode
+Neovim.Neovim
+Notepad++.Notepad++
+JetBrains.Toolbox
+JanDeDobbeleer.OhMyPosh
+
+# --- Browsers (for dev/testing) ---
+Google.Chrome
+Microsoft.Edge
+
+# --- Core dev tooling ---
+Git.Git
+GnuPG.Gpg4win
+OpenSSH.Client
+curl.curl
+HTTPie.HTTPie
+
+# --- Node.js / Frontend ---
+OpenJS.NodeJS.LTS
+OpenJS.Corepack
+Yarn.Yarn
+pnpm.pnpm
+
+# --- Python ---
+Python.Python.3.12
+Python.Launcher
+
+# --- Go ---
+GoLang.Go
+
+# --- Rust ---
+Rustlang.Rustup
+
+# --- Java (choose what you actually need; keeping both is ok) ---
+EclipseAdoptium.Temurin.17.JDK
+EclipseAdoptium.Temurin.21.JDK
+
+# --- Containers / K8s ---
+Docker.DockerDesktop
+Kubernetes.kubectl
+Helm.Helm
+
+# --- IaC / DevOps ---
+Hashicorp.Terraform
+Hashicorp.Packer
+
+# --- Cloud CLIs ---
+Microsoft.AzureCLI
+Amazon.AWSCLI
+Google.CloudSDK
+
+# --- Databases / Clients ---
+PostgreSQL.pgAdmin4
+MongoDB.Compass
+Redis.RedisInsight
+
+# --- API / HTTP clients ---
+Postman.Postman
+Insomnia.Insomnia
+
+# --- Observability (OPTIONAL: keep only if реально юзаешь локально) ---
+Grafana.Grafana
+Grafana.Loki
+Grafana.Promtail
+
+# --- Networking / VPN (OPTIONAL) ---
+OpenVPNTechnologies.OpenVPN
+WireGuard.WireGuard
+
+# --- UX / UI ---
+Figma.Figma
+Figma.FigmaAgent
+
+# --- Diagnostics / Power tools (WORK) ---
+7zip.7zip
+voidtools.Everything
+LocalSend.LocalSend
+WiresharkFoundation.Wireshark
+
+# --- Config / automation (OPTIONAL, if you actually use them on Windows) ---
+Ansible.Ansible
