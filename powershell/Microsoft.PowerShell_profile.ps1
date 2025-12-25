@@ -66,8 +66,8 @@ Set-PSReadLineOption -PredictionViewStyle ListView
 
 Set-PSReadLineKeyHandler -Key Ctrl+r -Function ReverseSearchHistory
 Set-PSReadLineKeyHandler -Key Ctrl+Shift+r -Function ForwardSearchHistory
-Set-PSReadLineKeyHandler -Key UpArrow -Function HistorySearchBackward
-Set-PSReadLineKeyHandler -Key DownArrow -Function HistorySearchForward
+Set-PSReadLineKeyHandler -Key UpArrow -Function PreviousHistory
+Set-PSReadLineKeyHandler -Key DownArrow -Function NextHistory
 Set-PSReadLineKeyHandler -Key Tab -Function MenuComplete
 
 # -----------------------------
