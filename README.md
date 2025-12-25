@@ -9,6 +9,7 @@ This repository manages:
 - Windows Terminal settings
 - Installed tools (winget export)
 - PowerShell modules list
+- Work applications (allowlist-based)
 
 Everything is designed to be:
 
@@ -50,8 +51,9 @@ dotfiles/
 │
 ├─ exports/
 │  ├─ winget.json
-│  ├─ modules.txt
-│  └─ choco-packages.config
+│  ├─ winget.allowlist.txt
+│  ├─ winget.work.json
+│  └─ modules.txt
 │
 ├─ .gitattributes
 └─ README.md
@@ -78,14 +80,17 @@ What `install.ps1` does:
 
 - Creates **symbolic links** to repo files
 - Falls back to copying if symlinks are not allowed
+- Optionally installs PowerShell modules (Terminal-Icons by default)
 - Optionally restores packages via `winget`
-- Installs essential tools if missing
+- Backs up existing files before overwriting
 
 Optional flags:
 
 ```powershell
 .\scripts\install.ps1 -CopyInsteadOfSymlink
-.\scripts\install.ps1 -SkipWingetRestore
+.\scripts\install.ps1 -Winget
+.\scripts\install.ps1 -WingetUpgrade
+.\scripts\install.ps1 -SkipBootstrap
 ```
 
 ---
@@ -112,23 +117,32 @@ Run anytime:
 dots help
 ```
 
-### Commands
+### Core commands
 
 #### `dots help`
 
 Show built-in help.
 
-#### `dots status`
+#### `dots doctor`
 
-Show git status.
+System health check:
 
-#### `dots diff`
+- Verifies PowerShell version
+- Checks for git, winget, starship
+- Reports missing tools
 
-Show git diff.
+#### `dots check`
+
+Health check:
+
+- Verifies symlinks
+- Ensures files point to the repo versions
 
 #### `dots root`
 
 Print dotfiles repository path.
+
+### Dotfiles management
 
 #### `dots install`
 
@@ -139,6 +153,16 @@ Runs `scripts/install.ps1`.
 
 Sync current system configs into the repo.
 Runs `scripts/backup.ps1`.
+
+### Git workflow
+
+#### `dots status`
+
+Show git status.
+
+#### `dots diff`
+
+Show git diff.
 
 #### `dots save`
 
@@ -163,12 +187,30 @@ Notes:
 
 Push current `HEAD` to `origin`.
 
-#### `dots check`
+### Apps management (allowlist-based)
 
-Health check:
+Work applications are managed via an allowlist system.
 
-- Verifies symlinks
-- Ensures files point to the repo versions
+#### `dots apps export`
+
+Generate `exports/winget.work.json` from `exports/winget.allowlist.txt`.
+
+You maintain the allowlist file manually.
+
+#### `dots apps sync`
+
+Install missing applications from `exports/winget.work.json`.
+
+#### `dots apps upgrade`
+
+Upgrade all installed packages via `winget upgrade --all`.
+
+#### `dots apps diff`
+
+Compare installed packages vs allowlist:
+
+- Shows missing (in allowlist but not installed)
+- Shows extra (installed but not in allowlist)
 
 ---
 
@@ -187,6 +229,17 @@ Health check:
 - Writes files **only if content changed**
 
 This keeps git history clean and meaningful.
+
+---
+
+## Apps management workflow
+
+1. Edit `exports/winget.allowlist.txt` (one package identifier per line)
+2. Run `dots apps export` to generate `exports/winget.work.json`
+3. Run `dots apps sync` to install missing packages
+4. Use `dots apps diff` to verify state
+
+The allowlist file is tracked in git; `winget.work.json` is auto-generated.
 
 ---
 
