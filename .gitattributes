@@ -1,0 +1,10 @@
+# Keep consistent line endings in repo
+* text=auto eol=lf
+
+# Windows Terminal settings can stay LF in repo (recommended)
+windows-terminal/*.json text eol=lf
+exports/*.json text eol=lf
+
+*.ps1 text eol=lf
+*.toml text eol=lf
+

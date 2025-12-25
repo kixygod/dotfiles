@@ -18,9 +18,7 @@ function Is-LinkTo($path, $target) {
     if (-not $t) { return $false }
     return (Full $t) -ieq (Full $target)
   }
-  catch {
-    return $false
-  }
+  catch { return $false }
 }
 
 function Copy-IfNotSame {
@@ -34,13 +32,11 @@ function Copy-IfNotSame {
   $srcFull = Full $Src
   $dstFull = Full $Dst
 
-  # same path -> skip
   if ($srcFull -ieq $dstFull) {
     "ℹ Skip (same path): $Dst"
     return
   }
 
-  # If src is a link to dst OR dst is a link to src -> skip
   if (Is-LinkTo $Src $Dst) {
     "ℹ Skip (src is link to dst): $Src -> $Dst"
     return
@@ -50,21 +46,9 @@ function Copy-IfNotSame {
     return
   }
 
-  # Copy by content (safe even if weird link semantics)
   $content = Get-Content -LiteralPath $Src -Raw
   Set-Content -LiteralPath $Dst -Value $content -Encoding UTF8
   "✅ Synced: $Src -> $Dst"
-}
-
-function Normalize-JsonFile {
-  param(
-    [Parameter(Mandatory)][string]$Path
-  )
-  # Normalize JSON formatting to reduce noisy diffs
-  $raw = Get-Content -LiteralPath $Path -Raw -ErrorAction Stop
-  $obj = $raw | ConvertFrom-Json -ErrorAction Stop
-  # depth high enough for winget export structure
-  return ($obj | ConvertTo-Json -Depth 32)
 }
 
 function Write-IfChanged {
@@ -72,6 +56,7 @@ function Write-IfChanged {
     [Parameter(Mandatory)][string]$Path,
     [Parameter(Mandatory)][string]$Content
   )
+
   Ensure-Dir (Split-Path -Parent $Path)
 
   if (Test-Path $Path) {
@@ -87,10 +72,20 @@ function Write-IfChanged {
   return $true
 }
 
+function Normalize-WingetExportJson([string]$Path) {
+  $raw = Get-Content -LiteralPath $Path -Raw -ErrorAction Stop
+  $obj = $raw | ConvertFrom-Json -ErrorAction Stop
+
+  # Reduce noise: CreationDate changes every export
+  if ($null -ne $obj.CreationDate) {
+    $obj.PSObject.Properties.Remove("CreationDate")
+  }
+
+  return ($obj | ConvertTo-Json -Depth 64)
+}
+
 function Export-WingetIfChanged {
-  param(
-    [Parameter(Mandatory)][string]$OutPath
-  )
+  param([Parameter(Mandatory)][string]$OutPath)
 
   if (-not (Get-Command winget -ErrorAction SilentlyContinue)) {
     "ℹ winget not found, skipping export."
@@ -99,16 +94,11 @@ function Export-WingetIfChanged {
 
   $tmp = [System.IO.Path]::GetTempFileName()
   try {
-    # Export to temp file
     winget export -o $tmp --accept-source-agreements | Out-Null
 
-    # Normalize JSON to avoid random formatting diffs
-    $normalized = Normalize-JsonFile -Path $tmp
-
-    # Ensure trailing newline (nice for diffs)
+    $normalized = Normalize-WingetExportJson -Path $tmp
     if (-not $normalized.EndsWith("`n")) { $normalized += "`n" }
 
-    # Write only if changed
     Write-IfChanged -Path $OutPath -Content $normalized | Out-Null
   }
   finally {
@@ -146,19 +136,15 @@ if (Test-Path $srcWT) {
 # -----------------------------
 Ensure-Dir (Join-Path $repo "exports")
 
-# winget export (only update file if content changed)
 Export-WingetIfChanged -OutPath (Join-Path $repo "exports\winget.json")
 
-# choco export (optional)
-if (Get-Command choco -ErrorAction SilentlyContinue) {
-  # If you want it, uncomment:
-  # choco export --output-file-path (Join-Path $repo "exports\choco-packages.config") | Out-Null
-}
-
-# Modules list (optional)
-Get-Module -ListAvailable |
+# Modules list (only update file if content changed)
+$modulesPath = Join-Path $repo "exports\modules.txt"
+$modules = Get-Module -ListAvailable |
 Select-Object -ExpandProperty Name -Unique |
-Sort-Object |
-Set-Content (Join-Path $repo "exports\modules.txt") -Encoding UTF8
+Sort-Object
+
+$modulesContent = ($modules -join "`n") + "`n"
+Write-IfChanged -Path $modulesPath -Content $modulesContent | Out-Null
 
 "✅ Backup complete."
