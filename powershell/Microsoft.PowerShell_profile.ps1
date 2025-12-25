@@ -1,7 +1,7 @@
 # -----------------------------
 # Fast & safe profile bootstrap
 # -----------------------------
-$ErrorActionPreference = "SilentlyContinue"
+$ErrorActionPreference = "Continue"
 
 function Import-IfAvailable {
     param(
@@ -12,15 +12,9 @@ function Import-IfAvailable {
             Import-Module $Name -ErrorAction SilentlyContinue
             return $true
         }
-    } catch {}
+    }
+    catch {}
     return $false
-}
-
-# -----------------------------
-# Prompt (Starship)
-# -----------------------------
-if (Get-Command starship -ErrorAction SilentlyContinue) {
-    Invoke-Expression (& starship init powershell)
 }
 
 # -----------------------------
@@ -33,6 +27,19 @@ if ($env:ChocolateyInstall) {
     if (Test-Path $chocoProfile) {
         Import-Module $chocoProfile -ErrorAction SilentlyContinue
     }
+}
+
+# -----------------------------
+# Environment niceties
+# -----------------------------
+$env:POWERSHELL_TELEMETRY_OPTOUT = "1"
+$env:STARSHIP_CONFIG = "$HOME\.config\starship.toml"
+
+# -----------------------------
+# Prompt (Starship)
+# -----------------------------
+if (Get-Command starship -ErrorAction SilentlyContinue) {
+    Invoke-Expression (& starship init powershell)
 }
 
 # -----------------------------
@@ -133,13 +140,70 @@ function hist-clean {
 }
 
 # Dotfiles aliases
+function Get-DotfilesRoot {
+    # $PROFILE is a symlink -> target is inside repo
+    $p = Get-Item -LiteralPath $PROFILE -ErrorAction Stop
+    $profileReal = if ($p.LinkType -and $p.Target) { $p.Target } else { $PROFILE }
+
+    # ...\dotfiles\powershell\Microsoft.PowerShell_profile.ps1 -> ...\dotfiles
+    return (Resolve-Path (Join-Path (Split-Path $profileReal -Parent) "..")).Path
+}
+
 function dots {
-	param(
-		[ValidateSet("install","backup")]$cmd
-	)
-	$repo = "$HOME\dotfiles"
-	if ($cmd -eq "install") { & "$repo\scripts\install.ps1" }
-	if ($cmd -eq "backup")  { & "$repo\scripts\backup.ps1" }
+    param(
+        [Parameter(Position = 0)]
+        [ValidateSet("install", "backup", "status", "diff", "save", "push", "root")]
+        [string]$cmd = "status",
+
+        [Parameter(Position = 1)]
+        [string]$msg = "update dotfiles"
+    )
+
+    $repo = Get-DotfilesRoot
+    $oldLoc = Get-Location
+    $oldEA = $ErrorActionPreference
+    $ErrorActionPreference = "Stop"
+
+    try {
+        if ($cmd -eq "root") { Write-Host $repo; return }
+
+        Set-Location $repo
+        Write-Host "→ dots $cmd @ $repo" -ForegroundColor DarkGray
+
+        switch ($cmd) {
+            "install" { & "$repo\scripts\install.ps1" | Out-Host }
+            "backup" { & "$repo\scripts\backup.ps1" | Out-Host }
+            "status" { & git status | Out-Host }
+            "diff" { & git diff | Out-Host }
+            "push" {
+                & git push -u origin HEAD | Out-Host
+                & git status | Out-Host
+            }
+
+            "save" {
+                & "$repo\scripts\backup.ps1" | Out-Host
+                & git add -A | Out-Host
+
+                & git diff --cached --quiet
+                if ($LASTEXITCODE -eq 0) {
+                    Write-Host "ℹ Nothing to commit." -ForegroundColor DarkGray
+                    & git status | Out-Host
+                    break
+                }
+
+                & git commit -m $msg | Out-Host
+                & git status | Out-Host
+            }
+
+        }
+    }
+    catch {
+        Write-Host "❌ dots $cmd failed: $($_.Exception.Message)" -ForegroundColor Red
+    }
+    finally {
+        Set-Location $oldLoc
+        $ErrorActionPreference = $oldEA
+    }
 }
 
 # Docker helpers
@@ -151,9 +215,3 @@ function dcl { docker compose logs -f --tail 200 }
 # Git helpers
 function gs { git status }
 function gl { git log --oneline --decorate -n 20 }
-
-# -----------------------------
-# Environment niceties
-# -----------------------------
-$env:POWERSHELL_TELEMETRY_OPTOUT = "1"
-$env:STARSHIP_CONFIG = "$HOME\.config\starship.toml"
