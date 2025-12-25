@@ -28,7 +28,8 @@ function Link-Or-Copy($src, $dst) {
 
   try {
     New-Item -ItemType SymbolicLink -Path $dst -Target $src | Out-Null
-  } catch {
+  }
+  catch {
     # fallback to copy if symlink is not allowed
     Copy-Item $src $dst -Recurse -Force
   }
@@ -36,7 +37,7 @@ function Link-Or-Copy($src, $dst) {
 
 # --- PowerShell profile ---
 $profilePath = $PROFILE
-$profileSrc  = Join-Path $repo "powershell\Microsoft.PowerShell_profile.ps1"
+$profileSrc = Join-Path $repo "powershell\Microsoft.PowerShell_profile.ps1"
 Link-Or-Copy $profileSrc $profilePath
 
 # --- Starship config ---

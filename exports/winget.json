@@ -1,206 +1,204 @@
 {
-	"$schema" : "https://aka.ms/winget-packages.schema.2.0.json",
-	"CreationDate" : "2025-12-25T23:47:48.474-00:00",
-	"Sources" : 
-	[
-		{
-			"Packages" : 
-			[
-				{
-					"PackageIdentifier" : "7zip.7zip"
-				},
-				{
-					"PackageIdentifier" : "BinaryFortress.DisplayFusion"
-				},
-				{
-					"PackageIdentifier" : "Git.Git"
-				},
-				{
-					"PackageIdentifier" : "Notepad++.Notepad++"
-				},
-				{
-					"PackageIdentifier" : "RustDesk.RustDesk"
-				},
-				{
-					"PackageIdentifier" : "Unity.Unity.2020"
-				},
-				{
-					"PackageIdentifier" : "Unity.Unity.6000"
-				},
-				{
-					"PackageIdentifier" : "Unity.UnityHub"
-				},
-				{
-					"PackageIdentifier" : "RARLab.WinRAR"
-				},
-				{
-					"PackageIdentifier" : "AntibodySoftware.WizTree"
-				},
-				{
-					"PackageIdentifier" : "GoLang.Go"
-				},
-				{
-					"PackageIdentifier" : "FACEITLTD.FACEITAC"
-				},
-				{
-					"PackageIdentifier" : "Microsoft.VCRedist.2010.x64"
-				},
-				{
-					"PackageIdentifier" : "OpenJS.NodeJS"
-				},
-				{
-					"PackageIdentifier" : "clsid2.mpc-hc"
-				},
-				{
-					"PackageIdentifier" : "Microsoft.VCRedist.2008.x64"
-				},
-				{
-					"PackageIdentifier" : "Microsoft.VSTOR"
-				},
-				{
-					"PackageIdentifier" : "voidtools.Everything"
-				},
-				{
-					"PackageIdentifier" : "Microsoft.PowerToys"
-				},
-				{
-					"PackageIdentifier" : "DuongDieuPhap.ImageGlass"
-				},
-				{
-					"PackageIdentifier" : "Nvidia.PhysX"
-				},
-				{
-					"PackageIdentifier" : "Starship.Starship"
-				},
-				{
-					"PackageIdentifier" : "Google.Chrome"
-				},
-				{
-					"PackageIdentifier" : "Anysphere.Cursor"
-				},
-				{
-					"PackageIdentifier" : "EclipseAdoptium.Temurin.11.JDK"
-				},
-				{
-					"PackageIdentifier" : "Microsoft.PowerShell"
-				},
-				{
-					"PackageIdentifier" : "Microsoft.VisualStudioCode"
-				},
-				{
-					"PackageIdentifier" : "Microsoft.GameInput"
-				},
-				{
-					"PackageIdentifier" : "AnyDesk.AnyDesk"
-				},
-				{
-					"PackageIdentifier" : "OBSProject.OBSStudio"
-				},
-				{
-					"PackageIdentifier" : "Valve.Steam"
-				},
-				{
-					"PackageIdentifier" : "Microsoft.VisualStudio.2022.Community"
-				},
-				{
-					"PackageIdentifier" : "qBittorrent.qBittorrent"
-				},
-				{
-					"PackageIdentifier" : "Roblox.Roblox"
-				},
-				{
-					"PackageIdentifier" : "Microsoft.VCRedist.2013.x64"
-				},
-				{
-					"PackageIdentifier" : "Microsoft.VCRedist.2012.x86"
-				},
-				{
-					"PackageIdentifier" : "Microsoft.DotNet.DesktopRuntime.8"
-				},
-				{
-					"PackageIdentifier" : "Microsoft.VCRedist.2005.x86"
-				},
-				{
-					"PackageIdentifier" : "Microsoft.VCRedist.2008.x86"
-				},
-				{
-					"PackageIdentifier" : "Python.Launcher"
-				},
-				{
-					"PackageIdentifier" : "Jaquadro.NBTExplorer"
-				},
-				{
-					"PackageIdentifier" : "Microsoft.VCRedist.2010.x86"
-				},
-				{
-					"PackageIdentifier" : "Microsoft.VCRedist.2015+.x86"
-				},
-				{
-					"PackageIdentifier" : "Microsoft.VCRedist.2012.x64"
-				},
-				{
-					"PackageIdentifier" : "Microsoft.VCRedist.2015+.x64"
-				},
-				{
-					"PackageIdentifier" : "Microsoft.VCRedist.2013.x86"
-				},
-				{
-					"PackageIdentifier" : "FTB.App"
-				},
-				{
-					"PackageIdentifier" : "Discord.Discord"
-				},
-				{
-					"PackageIdentifier" : "Fastfetch-cli.Fastfetch"
-				},
-				{
-					"PackageIdentifier" : "Figma.Figma"
-				},
-				{
-					"PackageIdentifier" : "Figma.FigmaAgent"
-				},
-				{
-					"PackageIdentifier" : "Genymobile.scrcpy"
-				},
-				{
-					"PackageIdentifier" : "Gyan.FFmpeg"
-				},
-				{
-					"PackageIdentifier" : "LocalSend.LocalSend"
-				},
-				{
-					"PackageIdentifier" : "Python.Python.3.13"
-				},
-				{
-					"PackageIdentifier" : "pizi.scrcpygui"
-				},
-				{
-					"PackageIdentifier" : "Telegram.TelegramDesktop"
-				},
-				{
-					"PackageIdentifier" : "Microsoft.AppInstaller"
-				},
-				{
-					"PackageIdentifier" : "Microsoft.UI.Xaml.2.7"
-				},
-				{
-					"PackageIdentifier" : "Microsoft.UI.Xaml.2.8"
-				},
-				{
-					"PackageIdentifier" : "Microsoft.VCLibs.Desktop.14"
-				},
-				{
-					"PackageIdentifier" : "Microsoft.WindowsTerminal"
-				}
-			],
-			"SourceDetails" : 
-			{
-				"Argument" : "https://cdn.winget.microsoft.com/cache",
-				"Identifier" : "Microsoft.Winget.Source_8wekyb3d8bbwe",
-				"Name" : "winget",
-				"Type" : "Microsoft.PreIndexed.Package"
-			}
-		}
-	],
-	"WinGetVersion" : "1.12.350"
+  "$schema": "https://aka.ms/winget-packages.schema.2.0.json",
+  "CreationDate": "2025-12-26T06:50:12.296+07:00",
+  "Sources": [
+    {
+      "Packages": [
+        {
+          "PackageIdentifier": "7zip.7zip"
+        },
+        {
+          "PackageIdentifier": "BinaryFortress.DisplayFusion"
+        },
+        {
+          "PackageIdentifier": "Git.Git"
+        },
+        {
+          "PackageIdentifier": "Notepad++.Notepad++"
+        },
+        {
+          "PackageIdentifier": "RustDesk.RustDesk"
+        },
+        {
+          "PackageIdentifier": "Unity.Unity.2020"
+        },
+        {
+          "PackageIdentifier": "Unity.Unity.6000"
+        },
+        {
+          "PackageIdentifier": "Unity.UnityHub"
+        },
+        {
+          "PackageIdentifier": "RARLab.WinRAR"
+        },
+        {
+          "PackageIdentifier": "AntibodySoftware.WizTree"
+        },
+        {
+          "PackageIdentifier": "GoLang.Go"
+        },
+        {
+          "PackageIdentifier": "FACEITLTD.FACEITAC"
+        },
+        {
+          "PackageIdentifier": "Microsoft.VCRedist.2010.x64"
+        },
+        {
+          "PackageIdentifier": "OpenJS.NodeJS"
+        },
+        {
+          "PackageIdentifier": "clsid2.mpc-hc"
+        },
+        {
+          "PackageIdentifier": "Microsoft.VCRedist.2008.x64"
+        },
+        {
+          "PackageIdentifier": "Microsoft.VSTOR"
+        },
+        {
+          "PackageIdentifier": "voidtools.Everything"
+        },
+        {
+          "PackageIdentifier": "Microsoft.PowerToys"
+        },
+        {
+          "PackageIdentifier": "DuongDieuPhap.ImageGlass"
+        },
+        {
+          "PackageIdentifier": "Nvidia.PhysX"
+        },
+        {
+          "PackageIdentifier": "Starship.Starship"
+        },
+        {
+          "PackageIdentifier": "Google.Chrome"
+        },
+        {
+          "PackageIdentifier": "Anysphere.Cursor"
+        },
+        {
+          "PackageIdentifier": "EclipseAdoptium.Temurin.11.JDK"
+        },
+        {
+          "PackageIdentifier": "Microsoft.PowerShell"
+        },
+        {
+          "PackageIdentifier": "Microsoft.VisualStudioCode"
+        },
+        {
+          "PackageIdentifier": "Microsoft.GameInput"
+        },
+        {
+          "PackageIdentifier": "AnyDesk.AnyDesk"
+        },
+        {
+          "PackageIdentifier": "OBSProject.OBSStudio"
+        },
+        {
+          "PackageIdentifier": "Valve.Steam"
+        },
+        {
+          "PackageIdentifier": "Microsoft.VisualStudio.2022.Community"
+        },
+        {
+          "PackageIdentifier": "qBittorrent.qBittorrent"
+        },
+        {
+          "PackageIdentifier": "Roblox.Roblox"
+        },
+        {
+          "PackageIdentifier": "Microsoft.VCRedist.2013.x64"
+        },
+        {
+          "PackageIdentifier": "Microsoft.VCRedist.2012.x86"
+        },
+        {
+          "PackageIdentifier": "Microsoft.DotNet.DesktopRuntime.8"
+        },
+        {
+          "PackageIdentifier": "Microsoft.VCRedist.2005.x86"
+        },
+        {
+          "PackageIdentifier": "Microsoft.VCRedist.2008.x86"
+        },
+        {
+          "PackageIdentifier": "Python.Launcher"
+        },
+        {
+          "PackageIdentifier": "Jaquadro.NBTExplorer"
+        },
+        {
+          "PackageIdentifier": "Microsoft.VCRedist.2010.x86"
+        },
+        {
+          "PackageIdentifier": "Microsoft.VCRedist.2015+.x86"
+        },
+        {
+          "PackageIdentifier": "Microsoft.VCRedist.2012.x64"
+        },
+        {
+          "PackageIdentifier": "Microsoft.VCRedist.2015+.x64"
+        },
+        {
+          "PackageIdentifier": "Microsoft.VCRedist.2013.x86"
+        },
+        {
+          "PackageIdentifier": "FTB.App"
+        },
+        {
+          "PackageIdentifier": "Discord.Discord"
+        },
+        {
+          "PackageIdentifier": "Fastfetch-cli.Fastfetch"
+        },
+        {
+          "PackageIdentifier": "Figma.Figma"
+        },
+        {
+          "PackageIdentifier": "Figma.FigmaAgent"
+        },
+        {
+          "PackageIdentifier": "Genymobile.scrcpy"
+        },
+        {
+          "PackageIdentifier": "Gyan.FFmpeg"
+        },
+        {
+          "PackageIdentifier": "LocalSend.LocalSend"
+        },
+        {
+          "PackageIdentifier": "Python.Python.3.13"
+        },
+        {
+          "PackageIdentifier": "pizi.scrcpygui"
+        },
+        {
+          "PackageIdentifier": "Telegram.TelegramDesktop"
+        },
+        {
+          "PackageIdentifier": "Microsoft.AppInstaller"
+        },
+        {
+          "PackageIdentifier": "Microsoft.UI.Xaml.2.7"
+        },
+        {
+          "PackageIdentifier": "Microsoft.UI.Xaml.2.8"
+        },
+        {
+          "PackageIdentifier": "Microsoft.VCLibs.Desktop.14"
+        },
+        {
+          "PackageIdentifier": "Microsoft.WindowsTerminal"
+        }
+      ],
+      "SourceDetails": {
+        "Argument": "https://cdn.winget.microsoft.com/cache",
+        "Identifier": "Microsoft.Winget.Source_8wekyb3d8bbwe",
+        "Name": "winget",
+        "Type": "Microsoft.PreIndexed.Package"
+      }
+    }
+  ],
+  "WinGetVersion": "1.12.350"
 }
+
