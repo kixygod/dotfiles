@@ -7,25 +7,13 @@
           "PackageIdentifier": "7zip.7zip"
         },
         {
-          "PackageIdentifier": "BinaryFortress.DisplayFusion"
+          "PackageIdentifier": "Docker.DockerDesktop"
         },
         {
           "PackageIdentifier": "Git.Git"
         },
         {
-          "PackageIdentifier": "Notepad++.Notepad++"
-        },
-        {
-          "PackageIdentifier": "RustDesk.RustDesk"
-        },
-        {
-          "PackageIdentifier": "Unity.Unity.2020"
-        },
-        {
-          "PackageIdentifier": "Unity.Unity.6000"
-        },
-        {
-          "PackageIdentifier": "Unity.UnityHub"
+          "PackageIdentifier": "PremiumSoft.NavicatPremium"
         },
         {
           "PackageIdentifier": "RARLab.WinRAR"
@@ -34,154 +22,73 @@
           "PackageIdentifier": "AntibodySoftware.WizTree"
         },
         {
-          "PackageIdentifier": "GoLang.Go"
-        },
-        {
-          "PackageIdentifier": "FACEITLTD.FACEITAC"
-        },
-        {
-          "PackageIdentifier": "Microsoft.VCRedist.2010.x64"
-        },
-        {
-          "PackageIdentifier": "clsid2.mpc-hc"
-        },
-        {
-          "PackageIdentifier": "Microsoft.VCRedist.2008.x64"
-        },
-        {
-          "PackageIdentifier": "Microsoft.VSTOR"
-        },
-        {
-          "PackageIdentifier": "voidtools.Everything"
-        },
-        {
-          "PackageIdentifier": "Microsoft.PowerToys"
-        },
-        {
-          "PackageIdentifier": "DuongDieuPhap.ImageGlass"
-        },
-        {
-          "PackageIdentifier": "Nvidia.PhysX"
-        },
-        {
           "PackageIdentifier": "Starship.Starship"
         },
         {
           "PackageIdentifier": "Google.Chrome"
         },
         {
-          "PackageIdentifier": "OpenJS.NodeJS"
+          "PackageIdentifier": "OpenJS.NodeJS.LTS"
         },
         {
-          "PackageIdentifier": "Anysphere.Cursor"
-        },
-        {
-          "PackageIdentifier": "EclipseAdoptium.Temurin.11.JDK"
+          "PackageIdentifier": "voidtools.Everything"
         },
         {
           "PackageIdentifier": "Microsoft.PowerShell"
         },
         {
-          "PackageIdentifier": "Microsoft.VisualStudioCode"
-        },
-        {
-          "PackageIdentifier": "Microsoft.GameInput"
-        },
-        {
           "PackageIdentifier": "Neovim.Neovim"
         },
         {
-          "PackageIdentifier": "AnyDesk.AnyDesk"
-        },
-        {
-          "PackageIdentifier": "OBSProject.OBSStudio"
-        },
-        {
-          "PackageIdentifier": "Valve.Steam"
-        },
-        {
-          "PackageIdentifier": "Microsoft.VisualStudio.2022.Community"
+          "PackageIdentifier": "Microsoft.Edge"
         },
         {
           "PackageIdentifier": "qBittorrent.qBittorrent"
         },
         {
-          "PackageIdentifier": "Roblox.Roblox"
+          "PackageIdentifier": "Microsoft.VCRedist.2015+.x86"
         },
         {
-          "PackageIdentifier": "Microsoft.VCRedist.2013.x64"
-        },
-        {
-          "PackageIdentifier": "Microsoft.VCRedist.2012.x86"
+          "PackageIdentifier": "Microsoft.DotNet.AspNetCore.8"
         },
         {
           "PackageIdentifier": "Microsoft.DotNet.DesktopRuntime.8"
         },
         {
-          "PackageIdentifier": "Microsoft.VCRedist.2005.x86"
+          "PackageIdentifier": "Intel.IntelDriverAndSupportAssistant"
         },
         {
-          "PackageIdentifier": "Microsoft.VCRedist.2008.x86"
+          "PackageIdentifier": "Microsoft.DotNet.DesktopRuntime.9"
         },
         {
-          "PackageIdentifier": "Python.Launcher"
-        },
-        {
-          "PackageIdentifier": "Jaquadro.NBTExplorer"
-        },
-        {
-          "PackageIdentifier": "Microsoft.VCRedist.2010.x86"
-        },
-        {
-          "PackageIdentifier": "Microsoft.VCRedist.2015+.x86"
-        },
-        {
-          "PackageIdentifier": "Microsoft.VCRedist.2012.x64"
+          "PackageIdentifier": "Microsoft.DotNet.Runtime.8"
         },
         {
           "PackageIdentifier": "Microsoft.VCRedist.2015+.x64"
         },
         {
-          "PackageIdentifier": "Microsoft.VCRedist.2013.x86"
+          "PackageIdentifier": "RedisInsight.RedisInsight"
         },
         {
-          "PackageIdentifier": "FTB.App"
+          "PackageIdentifier": "Yandex.Music"
         },
         {
-          "PackageIdentifier": "Discord.Discord"
+          "PackageIdentifier": "Postman.Postman"
         },
         {
-          "PackageIdentifier": "Fastfetch-cli.Fastfetch"
-        },
-        {
-          "PackageIdentifier": "Figma.Figma"
-        },
-        {
-          "PackageIdentifier": "Figma.FigmaAgent"
-        },
-        {
-          "PackageIdentifier": "Genymobile.scrcpy"
-        },
-        {
-          "PackageIdentifier": "Gyan.FFmpeg"
-        },
-        {
-          "PackageIdentifier": "LocalSend.LocalSend"
-        },
-        {
-          "PackageIdentifier": "Python.Python.3.13"
-        },
-        {
-          "PackageIdentifier": "pizi.scrcpygui"
+          "PackageIdentifier": "SlackTechnologies.Slack"
         },
         {
           "PackageIdentifier": "Telegram.TelegramDesktop"
         },
         {
-          "PackageIdentifier": "Microsoft.AppInstaller"
+          "PackageIdentifier": "Microsoft.VisualStudioCode"
         },
         {
-          "PackageIdentifier": "Microsoft.UI.Xaml.2.7"
+          "PackageIdentifier": "Anysphere.Cursor"
+        },
+        {
+          "PackageIdentifier": "Microsoft.AppInstaller"
         },
         {
           "PackageIdentifier": "Microsoft.UI.Xaml.2.8"

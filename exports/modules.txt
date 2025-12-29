@@ -24,10 +24,8 @@ Microsoft.PowerShell.Operation.Validation
 Microsoft.PowerShell.PSResourceGet
 Microsoft.PowerShell.Security
 Microsoft.PowerShell.Utility
-Microsoft.PowerToys.Configure
 Microsoft.Windows.Bcd.Cmdlets
 Microsoft.WinGet.Client
-Microsoft.WinGet.CommandNotFound
 Microsoft.WSMan.Management
 MMAgent
 NetAdapter
