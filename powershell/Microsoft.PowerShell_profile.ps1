@@ -45,14 +45,16 @@ function Test-InteractiveTerminal {
     # 1) Должен быть интерактивный хост (не PowerShell -NonInteractive и т.п.)
     if (-not $Host.UI -or -not $Host.UI.RawUI) { return $false }
 
-    # 2) Явно отключаем для известных "dumb" сред (IDE терминалы)
-    if ($env:TERM_PROGRAM -match 'vscode|cursor' -or $env:CURSOR_EDITOR) { return $false }
-
+    # 2) Отключаем ТОЛЬКО для "dumb" режима (агент Cursor)
+    # Это главный признак агента: TERM=dumb означает, что терминал не поддерживает ANSI/VT
+    if ($env:TERM -eq "dumb") { return $false }
+    
     # 3) На Windows: проверяем, что это обычный интерактивный терминал
     if ($IsWindows) {
         # Проверяем, что это консольный хост (не скрипт/автоматизация)
         if ($Host.Name -eq 'ConsoleHost' -or $Host.Name -eq 'WindowsTerminal') {
             # Проверяем, что вывод не редиректнут (в обычном терминале это False)
+            # В обычном терминале Cursor/VSCode это False, в агенте - True
             try {
                 if ([Console]::IsOutputRedirected -or [Console]::IsErrorRedirected) { return $false }
             } catch { return $false }
@@ -90,10 +92,7 @@ public static class Native {
         return $false
     }
 
-    # 4) Для *nix: проверяем на явно "dumb" терминалы
-    if ($env:TERM -eq "dumb") { return $false }
-
-    # 5) Проверка на редирект вывода
+    # 4) Для *nix: проверка на редирект вывода
     try {
         if ([Console]::IsOutputRedirected -or [Console]::IsErrorRedirected) { return $false }
     } catch { return $false }
